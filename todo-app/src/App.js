@@ -1,11 +1,13 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Counter from './components/counter/Counter';
 
 function App() {
   return (
     <div className="App">
-     Hello Raihan
+       <h3>Counter</h3>
+       <Counter />
+  
     </div>
   );
 }
