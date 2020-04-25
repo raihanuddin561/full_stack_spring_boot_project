@@ -4,22 +4,25 @@ import Welcome from "./Welcome"
 import WelcomeTo from "./WelcomeTo"
 import Raihan from "./Raihan"
 import "./TodoApp.css"
+import TodoList from './TodoList'
 class TodoApp extends Component{
     render(){
         return (
+            <div>
             <Router>
-                <div>
-                <Switch>
+               
+               <>
+               <Switch>
                 <Route path="/" exact component={LoginComponent} />
-                <Route path="/welcome" component={Welcome} />
+                <Route path="/welcome/:name" exact component={Welcome} />
                 <Route path="/wel" component={WelcomeTo} />
-                <Route path="/rai" component={Raihan} />
+                <Route path="/todo" exact component={TodoList} />
+                <Route component = {ErrorComponent}/>
                 </Switch>
-                </div>
-            </Router>
-             
-              
-                
+               </>
+               
+            </Router>  
+            </div>    
               
         )
     }
@@ -52,6 +55,7 @@ class LoginComponent extends Component{
                 showSuccessMessage: true,
                 invalidCredential:false
             })
+            this.props.history.push(`/welcome/${this.state.username}`)
         }else{
            
             this.setState({
@@ -64,7 +68,7 @@ class LoginComponent extends Component{
     render(){
         return (
             <div>
-               
+              
                 {this.state.invalidCredential && <div>Invalid credential</div>}
                 {this.state.showSuccessMessage && <div>Login Success</div>}
                 User Name: <input type="text" name="username" value={this.state.username} onChange={this.handleChange}/>
@@ -75,5 +79,9 @@ class LoginComponent extends Component{
             </div>
         )
     }
+}
+
+function ErrorComponent(){
+    return <div>Something wrong</div>
 }
 

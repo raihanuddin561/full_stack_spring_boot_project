@@ -4,7 +4,7 @@ class WelcomeTo extends Component{
     render(){
         return (
             <div>
-                <h1>Welcome To</h1>
+                <h1>Welcome To two</h1>
             </div>
         )
     }
