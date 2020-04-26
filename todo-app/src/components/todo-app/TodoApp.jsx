@@ -2,9 +2,12 @@ import React,{Component} from 'react'
 import {BrowserRouter as Router,Route,Switch} from "react-router-dom"
 import Welcome from "./Welcome"
 import WelcomeTo from "./WelcomeTo"
-import Raihan from "./Raihan"
+import Header from "./HeaderComponent"
+import Footer from "./FooterComponent"
 import "./TodoApp.css"
 import TodoList from './TodoList'
+import LogoutComponent from "./LogoutComponent"
+import Authentication from "./Authentication.js"
 class TodoApp extends Component{
     render(){
         return (
@@ -12,13 +15,16 @@ class TodoApp extends Component{
             <Router>
                
                <>
+               <Header/>
                <Switch>
                 <Route path="/" exact component={LoginComponent} />
+                <Route path="/login" exact component={LoginComponent} />
                 <Route path="/welcome/:name" exact component={Welcome} />
-                <Route path="/wel" component={WelcomeTo} />
+                <Route path="/logout" component={LogoutComponent} />
                 <Route path="/todo" exact component={TodoList} />
                 <Route component = {ErrorComponent}/>
                 </Switch>
+                <Footer/>
                </>
                
             </Router>  
@@ -51,6 +57,7 @@ class LoginComponent extends Component{
     }
     loginClicked(){
         if(this.state.username==="raihanuddin" && this.state.password==="dummy"){
+            Authentication.regeisterSuccess(this.state.username,this.state.password)
             this.setState({
                 showSuccessMessage: true,
                 invalidCredential:false
@@ -67,16 +74,18 @@ class LoginComponent extends Component{
     }
     render(){
         return (
-            <div>
-              
-                {this.state.invalidCredential && <div>Invalid credential</div>}
-                {this.state.showSuccessMessage && <div>Login Success</div>}
-                User Name: <input type="text" name="username" value={this.state.username} onChange={this.handleChange}/>
+            <>
+              <h1>Login</h1>
+              <div className="container">
+                {this.state.invalidCredential && <div className="alert alert-warning">Invalid credential</div>}
+               
+                User Name: <input className="form-control" type="text" name="username" value={this.state.username} onChange={this.handleChange}/>
                 <br/>
-                Password: <input type="password" name="password" value={this.state.password} onChange={this.handleChange}/>
+                Password: <input className="form-control" type="password" name="password" value={this.state.password} onChange={this.handleChange}/>
                 <br/>
-                <button onClick={this.loginClicked}>Login</button>
-            </div>
+                <button className="btn btn-success" onClick={this.loginClicked}>Login</button>
+                </div>
+            </>
         )
     }
 }
