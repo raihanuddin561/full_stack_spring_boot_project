@@ -1,8 +1,16 @@
 import React,{Component} from "react"
 import {Link} from "react-router-dom"
-
+import Authentication from "./Authentication.js"
 class HeaderComponent extends Component{
+    constructor(props){
+
+        super(props)
+       
+    }
+
+    
     render(){
+       /* const isLoggedIn = this.loginCheck()*/
         return (
             
             <header>
@@ -16,20 +24,20 @@ class HeaderComponent extends Component{
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav mr-auto">
                     <li className="nav-item">
-                        <Link className="nav-link active" to="/welcome/raihan">Home <span className="sr-only">(current)</span></Link>
+                        {Authentication.isLoggedIn() && <Link className="nav-link active" to="/welcome/raihan">Home </Link>}
                     </li>
                     <li className="nav-item">
-                        <Link className="nav-link" to="/todo">Todos</Link>
+                        {Authentication.isLoggedIn() && <Link className="nav-link" to="/todo">Todos</Link>}
                     </li>
                     
                     </ul>
                     <ul className="navbar-nav justify-content-end">
                 
                 <li className="nav-item">
-                <Link className="nav-link" to="/login">Login</Link>
+                {!Authentication.isLoggedIn() && <Link className="nav-link" to="/login">Login</Link>}
                 </li>
                 <li className="nav-item">
-                    <Link className="nav-link" to="/logout">Logout</Link>
+                    {Authentication.isLoggedIn() && <Link className="nav-link" to="/logout" onClick={Authentication.logout}>Logout</Link>}
                 </li>
                 
                 </ul>
