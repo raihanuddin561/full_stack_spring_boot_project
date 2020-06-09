@@ -21,7 +21,7 @@ public class TodoService {
 		return todos;
 	}
 	
-	public Todo deletedById(long id) {
+	public Todo deleteById(long id) {
 		Todo todo = findById(id);
 		if(todo==null) return null;
 		if(todos.remove(todo)) {

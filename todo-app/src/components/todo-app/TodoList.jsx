@@ -7,12 +7,18 @@ class TodoList extends Component {
     constructor(props){
         super(props)
         this.state = {
-            todos:[
-                
-            ]
+            todos:[],
+            message: null
         }
+        this.refreshTodos = this.refreshTodos.bind(this)
+        this.deleteTodo = this.deleteTodo.bind(this)
+        this.updateTodo = this.updateTodo.bind(this)
     }
     componentDidMount(){
+        this.refreshTodos()
+    }
+
+    refreshTodos(){
         let username = Authentication.getLoggedIn()
         TodoService.getTodoList(username)
         .then(response=>{
@@ -24,10 +30,34 @@ class TodoList extends Component {
             })
         })
     }
+    deleteTodo(id){
+        let username = Authentication.getLoggedIn()
+        TodoService.deleteTodoList(username,id)
+        .then(response=>{
+            this.setState({
+                message: "Successfully deleted ID : "+id
+            })
+            this.refreshTodos()
+        })
+    }
+
+    updateTodo(id){
+        console.log(`update id ${id}`)
+        this.props.history.push(`/todo/${id}`)
+        // let username = Authentication.getLoggedIn()
+        // TodoService.deleteTodoList(username,id)
+        // .then(response=>{
+        //     this.setState({
+        //         message: "Successfully deleted ID : "+id
+        //     })
+        //     this.refreshTodos()
+        // })
+    }
     render(){
         return (
             <>
                 <h1>Todo List</h1>
+        {this.state.message && <div className="alert alert-warning">{this.state.message}</div>}
                <div className="container">
                 <table className="table">
                         <thead>
@@ -47,6 +77,9 @@ class TodoList extends Component {
                             <td>{todo.description}</td>
                             <td>{todo.done.toString()}</td>
                             <td>{todo.targetDate.toString()}</td>
+                            <td><button className="btn btn-success" onClick={()=>this.updateTodo(todo.id)}>Update</button></td>
+                            <td><button className="btn btn-danger" onClick={()=>this.deleteTodo(todo.id)}>Delete</button></td>
+                            
                             </tr>
                             )
                             }
