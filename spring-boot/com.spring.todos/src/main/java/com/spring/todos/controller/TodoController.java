@@ -3,11 +3,14 @@ package com.spring.todos.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.spring.todos.model.Todo;
@@ -24,6 +27,12 @@ public class TodoController {
 		return todoService.getTodo();
 	}
 	
+	@GetMapping(path="/get/{username}/todos/{id}")
+	public Todo getTodo(@PathVariable String username,@PathVariable long id){
+		
+		return todoService.findById(id);
+	}
+	
 	@DeleteMapping(path="/delete/{username}/todos/{id}")
 	public ResponseEntity<Void> deleteTodo(@PathVariable String username, @PathVariable long id){
 		Todo todo = todoService.deleteById(id);
@@ -31,5 +40,10 @@ public class TodoController {
 			return ResponseEntity.noContent().build();
 		}
 		return ResponseEntity.notFound().build();
+	}
+	@PutMapping("/update/{username}/todos/{id}")
+	public ResponseEntity<Todo> update(@PathVariable String username, @PathVariable long id,@RequestBody Todo todo){
+		Todo updatedTodo = todoService.save(todo);
+		return new ResponseEntity<Todo>(todo,HttpStatus.OK);
 	}
 }
