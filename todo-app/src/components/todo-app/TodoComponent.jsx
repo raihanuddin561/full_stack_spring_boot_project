@@ -28,7 +28,12 @@ class TodoComponent extends Component{
         return error
     }
     onSubmit(values){
-        console.log(values.description)
+        let username = Authentication.getLoggedIn()
+        TodoService.updateTodoById(username,this.state.id,{
+            id: this.state.id,
+            description: values.description,
+            targetDate: values.targetDate
+        }).then(()=> this.props.history.push("/todo"))
     }
     componentDidMount(){
         let username = Authentication.getLoggedIn()
