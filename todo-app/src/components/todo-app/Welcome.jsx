@@ -7,6 +7,7 @@ class Welcome extends Component{
         super(props)
         this.retrieveMessage = this.retrieveMessage.bind(this)
         this.handleSuccessfullRespone = this.handleSuccessfullRespone.bind(this)
+        this.handleError = this.handleError.bind(this)
         this.state = {
             message: ''
         }
@@ -36,10 +37,22 @@ class Welcome extends Component{
         //console.log("retrieve message")
         HelloWorldService.helloWorldPathVariableService(this.props.match.params.name)
         .then(response=>this.handleSuccessfullRespone(response))
+        .catch(error=> this.handleError(error))
     }
 
     handleSuccessfullRespone(response){
         this.setState({message:response.data.message})
+    }
+
+    handleError(error){
+        let errorMessage = ''
+        if(error.message){
+            errorMessage += error.message
+        }
+        if(error.response && error.response.data.message){
+            errorMessage += error.response.data.message
+        }
+        this.setState({message:errorMessage})
     }
 }
 

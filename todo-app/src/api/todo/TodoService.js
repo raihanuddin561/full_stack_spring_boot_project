@@ -14,5 +14,9 @@ class TodoService{
     updateTodoById(username,id,todos){
         return axios.put(`http://localhost:8080/update/${username}/todos/${id}`,todos)
     }
+
+    postTodo(username,todos){
+        return axios.post(`http://localhost:8080/update/${username}/todos/`,todos)
+    }
 }
 export default new TodoService()

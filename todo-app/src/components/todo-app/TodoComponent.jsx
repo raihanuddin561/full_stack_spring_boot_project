@@ -27,17 +27,28 @@ class TodoComponent extends Component{
         }
         return error
     }
+   
     onSubmit(values){
         let username = Authentication.getLoggedIn()
-        TodoService.updateTodoById(username,this.state.id,{
-            id: this.state.id,
-            description: values.description,
-            targetDate: values.targetDate
-        }).then(()=> this.props.history.push("/todo"))
+       let todo = {
+        id: this.state.id,
+        description: values.description,
+        targetDate: values.targetDate
+       }
+        if(this.state.id===-1){
+            TodoService.postTodo(username,todo).then(()=>this.props.history.push("/todo"))
+        }else{
+        
+        TodoService.updateTodoById(username,this.state.id,todo).then(()=> this.props.history.push("/todo"))
+    }
     }
     componentDidMount(){
-        let username = Authentication.getLoggedIn()
         let id = this.props.match.params.id
+        if(id===-1){
+            return
+        }
+        let username = Authentication.getLoggedIn()
+        
         TodoService.getTodoById(username,id)
         .then(response=>
             this.setState ({
@@ -63,6 +74,7 @@ class TodoComponent extends Component{
                 onSubmit = {this.onSubmit}
                 validate = {this.validate}
                 enableReinitialize={true}
+                
             >
                 {
                     (props)=>(

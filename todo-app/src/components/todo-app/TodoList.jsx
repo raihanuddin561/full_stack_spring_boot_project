@@ -14,6 +14,7 @@ class TodoList extends Component {
         this.refreshTodos = this.refreshTodos.bind(this)
         this.deleteTodo = this.deleteTodo.bind(this)
         this.updateTodo = this.updateTodo.bind(this)
+        this.addTodo = this.addTodo.bind(this)
     }
     componentDidMount(){
         this.refreshTodos()
@@ -41,7 +42,10 @@ class TodoList extends Component {
             this.refreshTodos()
         })
     }
-
+    addTodo(){
+        
+        this.props.history.push(`/todo/-1`)
+    }
     updateTodo(id){
         console.log(`update id ${id}`)
         this.props.history.push(`/todo/${id}`)
@@ -86,6 +90,7 @@ class TodoList extends Component {
                             }
                         </tbody>
                     </table>
+                    <button className="btn btn-success" onClick={()=>this.addTodo()}>Add</button>
                </div>
             </>
         )
