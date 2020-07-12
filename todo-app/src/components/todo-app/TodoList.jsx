@@ -31,6 +31,7 @@ class TodoList extends Component {
                 todos: response.data
             })
         })
+       
     }
     deleteTodo(id){
         let username = Authentication.getLoggedIn()
