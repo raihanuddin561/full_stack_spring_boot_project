@@ -44,7 +44,7 @@ class LoginComponent extends Component{
     constructor(props){
         super(props)
         this.state = {
-            username: "raihanuddin",
+            username: "raihan",
             password:"",
             invalidCredential:false,
             showSuccessMessage: false
@@ -59,20 +59,18 @@ class LoginComponent extends Component{
         })
     }
     loginClicked(){
-        if(this.state.username==="raihanuddin" && this.state.password==="dummy"){
+       
+        Authentication.basicAuth(this.state.username,this.state.password)
+        .then(()=>{
             Authentication.regeisterSuccess(this.state.username,this.state.password)
-            this.setState({
-                showSuccessMessage: true,
-                invalidCredential:false
-            })
+          
             this.props.history.push(`/welcome/${this.state.username}`)
-        }else{
-           
+        }).catch(()=>{
             this.setState({
                 showSuccessMessage: false,
                 invalidCredential: true
             })
-        }
+        });
         console.log(this.state.loginSuccess)
     }
     render(){

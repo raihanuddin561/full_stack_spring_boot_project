@@ -2,14 +2,8 @@ import axios from "axios"
 
 class TodoService{
     getTodoList(username){
-        username = "raihan"
-        let password = "dummy"
-        let auth = "basic "+window.btoa(username+":"+password)
-        return axios.get(`http://localhost:8080/get/${username}/todos`,{
-            headers:{
-                authorization: auth
-            }
-        })
+        
+        return axios.get(`http://localhost:8080/get/${username}/todos`)
         
     }
     deleteTodoList(username,id){
