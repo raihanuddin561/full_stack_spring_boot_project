@@ -60,9 +60,10 @@ class LoginComponent extends Component{
     }
     loginClicked(){
        
-        Authentication.basicAuth(this.state.username,this.state.password)
-        .then(()=>{
-            Authentication.regeisterSuccess(this.state.username,this.state.password)
+        Authentication.jwtAuth(this.state.username,this.state.password)
+        .then((response)=>{
+            console.log("printing token: "+response.data.token)
+            Authentication.regeisterSuccessForJwt(this.state.username,response.data.token)
           
             this.props.history.push(`/welcome/${this.state.username}`)
         }).catch(()=>{

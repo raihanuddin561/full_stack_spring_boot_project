@@ -31,6 +31,14 @@ class TodoList extends Component {
                 todos: response.data
             })
         })
+        .catch(
+
+            ()=>{
+                let token = Authentication.getToken();
+           let newToken= Authentication.refreshAuth(token)
+            Authentication.refreshing(newToken)
+            }
+        )
        
     }
     deleteTodo(id){

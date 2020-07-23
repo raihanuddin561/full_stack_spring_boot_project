@@ -10,11 +10,11 @@ import com.spring.todos.model.Todo;
 @Service
 public class TodoService {
 	private static List<Todo> todos = new ArrayList<Todo>();
-	private static int idCount=0;
+	private static long idCount=0;
 	static {
-		todos.add(new Todo(++idCount,"Learning spring boot",new Date(),false));
-		todos.add(new Todo(++idCount,"Learning Algorithm",new Date(),false));
-		todos.add(new Todo(++idCount,"Learning Database",new Date(),false));
+		todos.add(new Todo(++idCount,"raihan","Learning spring boot",new Date(),false));
+		todos.add(new Todo(++idCount,"raihan","Learning Algorithm",new Date(),false));
+		todos.add(new Todo(++idCount,"raihan","Learning Database",new Date(),false));
 
 	}
 	public List<Todo> getTodo(){

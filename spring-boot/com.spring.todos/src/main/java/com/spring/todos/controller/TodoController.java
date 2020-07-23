@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.spring.todos.model.Todo;
+import com.spring.todos.repository.TodoJpaRepository;
 import com.spring.todos.services.TodoService;
 
 @RestController
@@ -25,34 +26,40 @@ public class TodoController {
 	@Autowired
 	private TodoService todoService;
 	
+	@Autowired
+	private TodoJpaRepository todoJpaRepository;
+	
 	@GetMapping(path="/get/{username}/todos")
 	public List<Todo> getTodo(@PathVariable String username){
-		return todoService.getTodo();
+		return todoJpaRepository.findByUsername(username);
 	}
 	
 	@GetMapping(path="/get/{username}/todos/{id}")
 	public Todo getTodo(@PathVariable String username,@PathVariable long id){
-		
-		return todoService.findById(id);
+		return todoJpaRepository.findById(id).get();
+		//return todoService.findById(id);
 	}
 	
 	@DeleteMapping(path="/delete/{username}/todos/{id}")
 	public ResponseEntity<Void> deleteTodo(@PathVariable String username, @PathVariable long id){
-		Todo todo = todoService.deleteById(id);
+		Todo todo = todoJpaRepository.findById(id).get();
 		if(todo != null) {
 			return ResponseEntity.noContent().build();
+		}else {
+			todoJpaRepository.deleteById(id);
+			return ResponseEntity.notFound().build();
 		}
-		return ResponseEntity.notFound().build();
+		
 	}
 	@PutMapping("/update/{username}/todos/{id}")
 	public ResponseEntity<Todo> update(@PathVariable String username, @PathVariable long id,@RequestBody Todo todo){
-		Todo updatedTodo = todoService.save(todo);
+		Todo updatedTodo = todoJpaRepository.save(todo);
 		return new ResponseEntity<Todo>(todo,HttpStatus.OK);
 	}
 	
 	@PostMapping("/create/{username}/todos")
 	public ResponseEntity<Todo> saveTodo(@PathVariable String username,@RequestBody Todo todo){
-		Todo createdTodo = todoService.save(todo);
+		Todo createdTodo = todoJpaRepository.save(todo);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(createdTodo.getId()).toUri(); 
 		return  ResponseEntity.created(uri).build();
 	}
